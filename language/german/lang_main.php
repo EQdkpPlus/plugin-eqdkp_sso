@@ -36,10 +36,13 @@ $lang = array(
 	'es_fs_master'	=> 'Master-Einstellungen',
 	'es_fs_slave'	=> 'Slave-Einstellungen',
 	'es_f_own_sso_type' => 'System-Typ',
+	'es_f_help_own_sso_type' => 'In einem EQdkp-Verbund darf es nur einen Master geben, alle anderen Systeme müssen als Slaves konfiguriert sein.',
 	'es_f_own_master_key' => 'Eigener Master-Key',
 	'es_f_own_uniqueid'	=> 'Eigene Installations-ID',
 	'es_f_master_key'	=> 'Master-Key',
+	'es_f_help_master_key'	=> 'Trage hier den Master-Key des Masters ein.',
 	'es_f_db_type'		=> 'Datenbankverbindung',
+	'es_f_help_db_type'		=> 'Wähle aus, wie der Master zu erreichen ist.',
 	'es_db_types'	=> array(
 		'Selbe Datenbank', 'Andere Datenbank', 'Bridge-Verbindung verwenden'
 	),
@@ -48,7 +51,7 @@ $lang = array(
 	'es_f_db_password' => 'Datenbank-Passwort',
 	'es_f_db_database' => 'Datenbank-Name',
 	'es_f_db_prefix'	=> 'Installations-Prefix',
-	'es_f_help_db_prefix'	=> 'Das Prefix der EQdkp Plus Installation in der angegebenen Datenbank, z.B. "eqdkp20_"',
+	'es_f_help_db_prefix'	=> 'Das Prefix der Master EQdkp Plus Installation, z.B. "eqdkp20_"',
 	'es_slaves'	=> 'Slaves',
 	'es_add_slave' => 'Slave hinzufügen',
 	'es_edit_slave' => 'Slave bearbeiten',
@@ -60,8 +63,11 @@ $lang = array(
 	'es_f_help_domain' => 'Trage hier die Domain (inkl. Subdomain) ein, z.B. mydomain.com, oder eqdkp.yourdomain.eu',
 	'es_master_conn_true' => 'Die Verbindung mit dem Master war erfolgreich. Du kannst deinen Slave nun beim Master eintragen lassen, in dem du die Schaltfläche dafür verwendest.',
 	'es_sendto_master' => 'Diesen Slave an den Master senden',
-	'es_sendto_master_error' => 'Der Slave konnt nicht im Master eingetragen werden. Bitte überprüfe die Verbindung zum Master.',
+	'es_sendto_master_error' => 'Der Slave konnte nicht im Master eingetragen werden. Bitte überprüfe die Verbindung zum Master.',
 	'es_sendto_master_success' => 'Dieser Slave wurde erfolgreich im Master eingetragen.',
+	'es_domain' => 'Domain',
+	'es_uniqueid' => 'Eindeutige ID',
+	'es_cookie_name' => 'Cookie-Name',
 );
 
 ?>
