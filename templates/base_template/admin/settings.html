@@ -1,0 +1,139 @@
+<div class="breadcrumb-container">
+	<ul class="breamcrumb">
+		<li><a href="{EQDKP_CONTROLLER_PATH}{SID}" title="{L_home}"><i class="fa fa-home"></i></a></li>
+		<li><a href="{EQDKP_ROOT_PATH}admin/{SID}">{L_menu_admin_panel}</a>
+		<li class="current"><a>{L_eqdkp_sso}: {L_settings}</a></li>
+	</ul>
+	<div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+
+function hide_all(){
+	$('#f_316a8dad96, #f_03c6376b63, #fs_eb0a191797, #fs_slaves').hide();
+}
+
+function hide_all_dboptions(){
+	$('#f_16a6214c4a, #f_114feb0961, #f_d4982f060b, #f_ba3477c63d, #f_1a53b51971').hide();
+}
+
+function show_master(){
+	$('#f_316a8dad96, #fs_slaves').show();
+}
+
+function show_slave(){
+	$('#f_03c6376b63, #fs_eb0a191797').show();
+}
+
+$(document).ready(function(){
+	$('#own_sso_type').on('change', function(){
+		var selected = $(this).val();
+		if (selected == 'master'){
+			hide_all();
+			show_master();
+		} else {
+			hide_all();
+			show_slave();
+		}
+	})
+	
+	hide_all();
+	$('#own_sso_type').trigger('change');
+
+	
+	$('input[name=db_type]').on('change', function(){
+		var selected = $(this).val();
+
+		hide_all_dboptions();
+		if (selected == 0){
+			$('#f_1a53b51971').show();
+		}
+		if(selected == 1){
+			$('#f_16a6214c4a, #f_114feb0961, #f_d4982f060b, #f_ba3477c63d, #f_1a53b51971').show();
+		}
+	})
+	
+	//Startup Radio
+	var radiosel = $('input[name=db_type]:checked').val();
+	hide_all_dboptions();
+	if (radiosel == 0){
+		$('#f_1a53b51971').show();
+	}
+	if(radiosel == 1){
+		$('#f_16a6214c4a, #f_114feb0961, #f_d4982f060b, #f_ba3477c63d, #f_1a53b51971').show();
+	}
+})
+
+
+
+</script>
+
+
+<form method="post" action="{ACTION}" name="post" id="sso_settings">
+	<div class="contentHeader">
+		<h1 class="contentTitle">{L_settings}</h1>
+	</div>
+	
+	<!-- BEGIN fieldsets -->
+	<!-- IF fieldsets.INFO -->
+	<div class="infobox infobox-large infobox-blue clearfix">
+		<i class="fa fa-info-circle fa-4x pull-left"></i> {fieldsets.INFO}
+	</div>
+
+	<!-- ENDIF -->
+
+	<fieldset class="settings" id="{fieldsets.ID}">
+		<legend>{fieldsets.NAME}</legend>
+
+		<!-- BEGIN fields -->
+		<dl id="{fieldsets.fields.ID}">
+			<dt><label>{fieldsets.fields.NAME}</label><br /><span>{fieldsets.fields.HELP}</span></dt>
+			<dd>{fieldsets.fields.FIELD}{fieldsets.fields.TEXT}</dd>
+		</dl>
+		<!-- END fields -->
+	</fieldset>
+	<!-- END fieldsets -->
+	
+	
+	<fieldset class="settings" id="fs_slaves">
+		<legend>{L_es_slaves}</legend>
+
+		<div class="tableHeader floatRight">
+			<button type="button" onclick="editSlave(0);"><i class="fa fa-plus"></i>{L_es_add_slave}</button>
+		</div>
+	<table width="100%" border="0" cellspacing="1" cellpadding="2" id="dynamictemplate_form_table" class="colorswitch">
+		<thead>
+		<tr class="not-sortable">
+			<th width="10px"></th>
+			<th width="10px"></th>
+			<th>{L_name}</th>
+			<th>Domain</th>
+			<th>UniqueID</th>
+			<th>Cookie-Name</th>
+		</tr>
+		</thead>
+		<tbody>
+		<!-- BEGIN field_row -->
+		<tr>
+			<td align="center"><a href="#" onclick="editSlave({field_row.ID})"><i class="fa fa-pencil fa-lg" title="{L_edit}"></i></a></td>
+			<td align="center"><a href="{SID}&del={field_row.ID}&link_hash={field_row.DEL_HASH}"><i class="fa fa-trash-o fa-lg" title="{L_delete}"></i></a></td>
+			<td>{field_row.NAME}</td>
+			<td>{field_row.DOMAIN}</td>
+			<td>{field_row.UNIQUEID}</td>
+			<td>{field_row.COOKIE_NAME}</td>
+		</tr>
+		<!-- END field_row -->
+		</tbody>
+	</table>
+	
+	</fieldset>
+	<br />
+	
+	<div class="contentFooter">
+		<button class="mainoption" type="submit" name="save"><i class="fa fa-check"></i> {L_save}</button>
+		<!-- IF S_INSERT_MASTER -->
+		<button class="mainoption" type="submit" name="tomaster"><i class="fa fa-share"></i> {L_es_sendto_master}</button>
+		<!-- ENDIF -->
+	</div>
+{CSRF_TOKEN}	
+</form>
