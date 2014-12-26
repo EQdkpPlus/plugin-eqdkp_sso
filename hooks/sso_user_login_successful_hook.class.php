@@ -35,8 +35,6 @@ if (!class_exists('sso_user_login_successful_hook')){
 			$user_id = $arrOptions['user_id'];
 			$blnAutologin = $arrOptions['autologin'];
 			
-			ini_set('display_errors', 1);
-			
 			//Include SSO Class
 			include_once $this->root_path.'plugins/eqdkp_sso/includes/eqdkp_sso.class.php';
 			$this->sso = register('eqdkp_sso_class');
@@ -86,7 +84,7 @@ if (!class_exists('sso_user_login_successful_hook')){
 
 			foreach($arrMasterData as $arrValue){
 				//UniqueID checken
-				//if($arrValue['uniqueid'] != "" && $arrValue['uniqueid'] == $strMyUniqueID) continue;
+				if($arrValue['uniqueid'] != "" && $arrValue['uniqueid'] == $strMyUniqueID) continue;
 				
 				//Verbindung aufbauen
 				$mydb = false;
@@ -113,7 +111,7 @@ if (!class_exists('sso_user_login_successful_hook')){
 				if ($mydb){
 				
 					//UserID suchen
-					$objUserQuery = $mydb->prepare("SELECT * FROM __users WHERE username=LOWER(?)")->execute($strUsername);
+					$objUserQuery = $mydb->prepare("SELECT * FROM __users WHERE LOWER(username)=?")->execute($strUsername);
 					if($objUserQuery){
 						$arrUserdata = $objUserQuery->fetchAssoc();
 						$intUserID = $arrUserdata['user_id'];
@@ -165,8 +163,8 @@ if (!class_exists('sso_user_login_successful_hook')){
 							}
 							
 							//Set Cookies
-							setcookie( $arrCookieConf['cookie_name'].'_sid_t', $sid, 0, $arrCookieConf['cookie_path'], $arrCookieConf['cookie_domain']);
-							setcookie( $arrCookieConf['cookie_name'].'_data_t', base64_encode(serialize($arrCookieData)), $this->time->time + 2592000, $arrCookieConf['cookie_path'], $arrCookieConf['cookie_domain']);
+							setcookie( $arrCookieConf['cookie_name'].'_sid', $sid, 0, $arrCookieConf['cookie_path'], $arrCookieConf['cookie_domain']);
+							setcookie( $arrCookieConf['cookie_name'].'_data', base64_encode(serialize($arrCookieData)), $this->time->time + 2592000, $arrCookieConf['cookie_path'], $arrCookieConf['cookie_domain']);
 						}
 
 					}
