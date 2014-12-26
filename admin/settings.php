@@ -78,6 +78,7 @@ class EQdkpSSOAdminSettings extends page_generic {
 		unset($arrValues['own_master_key']);
 		
 		$this->config->set($arrValues, '', 'eqdkp_sso');
+		$this->pdc->del('eqdkp_sso_masterdata');
 	}
 	
 	public function sendToMaster(){
@@ -148,7 +149,7 @@ class EQdkpSSOAdminSettings extends page_generic {
 					'default' => 'slave',
 				),
 				'own_master_key' => array(
-					'text' => $this->sso->get_master_key(),
+					'text' => $this->sso->get_own_master_key(),
 				),
 				'own_uniqueid' => array(
 					'text' => $this->sso->get_uniqueid(),

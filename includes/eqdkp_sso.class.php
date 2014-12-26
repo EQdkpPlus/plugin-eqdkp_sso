@@ -21,7 +21,7 @@
 
 class eqdkp_sso_class extends gen_class {
 	
-	public function get_master_key(){
+	public function get_own_master_key(){
 		include($this->pfh->FolderPath('config', 'eqdkp_sso').'config.php');
 		return $eqdkp_sso_masterKey;
 	}
@@ -29,6 +29,13 @@ class eqdkp_sso_class extends gen_class {
 	public function get_uniqueid(){
 		include($this->pfh->FolderPath('config', 'eqdkp_sso').'config.php');
 		return $eqdkp_sso_uniqueID;
+	}
+	
+	public function get_master_key(){
+		$arrValues = $this->config->get_config('eqdkp_sso');
+		if(isset($arrValues['master_key']))  $masterKey	= $this->encrypt->decrypt($arrValues['master_key']);
+
+		return $masterKey;
 	}
 	
 	public function check_connection($db_type, $db_host, $db_user, $db_password, $db_database, $db_prefix){
@@ -85,6 +92,20 @@ class eqdkp_sso_class extends gen_class {
 		}
 		
 		return $mydb;
+	}
+	
+	public function getMasterConnection(){
+		$arrValues = $this->config->get_config('eqdkp_sso');
+		
+		if(isset($arrValues['master_key']))  $arrValues['master_key']	= $this->encrypt->decrypt($arrValues['master_key']);
+		if(isset($arrValues['db_host'])) 	 $arrValues['db_host']		= $this->encrypt->decrypt($arrValues['db_host']);
+		if(isset($arrValues['db_user']))	 $arrValues['db_user']		= $this->encrypt->decrypt($arrValues['db_user']);
+		if(isset($arrValues['db_password'])) $arrValues['db_password']	= $this->encrypt->decrypt($arrValues['db_password']);
+		if(isset($arrValues['db_database'])) $arrValues['db_database']	= $this->encrypt->decrypt($arrValues['db_database']);
+		if(isset($arrValues['db_prefix']))   $arrValues['db_prefix']	= $this->encrypt->decrypt($arrValues['db_prefix']);
+		
+		$objMasterDB = $this->createConnection($arrValues['db_type'], $arrValues['db_host'], $arrValues['db_user'], $arrValues['db_password'], $arrValues['db_database'], $arrValues['db_prefix']);
+		return $objMasterDB;
 	}
 	
 }

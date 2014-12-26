@@ -61,7 +61,7 @@ class EQdkpSSOAdminSlaves extends page_generic {
 		$blnResult = $this->sso->check_connection($arrValues['db_type'], $arrValues['db_host'], $arrValues['db_user'], $arrValues['db_password'], $arrValues['db_database'], $arrValues['db_prefix']);
 		if ($blnResult === true){
 			//Save
-			$blnResult = $this->pdh->put('eqdkp_sso', 'save_slave', array($this->in->get('slaveid', 0), $this->sso->get_master_key(), $arrValues));
+			$blnResult = $this->pdh->put('eqdkp_sso', 'save_slave', array($this->in->get('slaveid', 0), $this->sso->get_own_master_key(), $arrValues));
 			$this->pdh->process_hook_queue();
 			if ($blnResult){
 				$this->tpl->add_js('$.FrameDialog.closeDialog();', 'docready');
@@ -144,7 +144,7 @@ class EQdkpSSOAdminSlaves extends page_generic {
 		if(!$arrValues && $this->in->get('slaveid', 0)){
 			$arrValues = $this->pdh->get('eqdkp_sso', 'data', array($this->in->get('slaveid', 0)));
 			//Encrypt some Values
-			$crypt = register('encrypt', array($this->sso->get_master_key()));
+			$crypt = register('encrypt', array($this->sso->get_own_master_key()));
 			
 			$arrValues['db_host'] 		= $crypt->decrypt($arrValues['db_host']);
 			$arrValues['db_user'] 		= $crypt->decrypt($arrValues['db_user']);

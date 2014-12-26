@@ -75,6 +75,8 @@ class eqdkp_sso extends plugin_generic{
 		// -- PDH Modules -------------------------------------
 		$this->add_pdh_read_module('eqdkp_sso');
 		$this->add_pdh_write_module('eqdkp_sso');
+		
+		$this->add_hook('user_login_successful', 'sso_user_login_successful_hook', 'user_login_successful');
 	}
 
 	/**
@@ -87,21 +89,39 @@ class eqdkp_sso extends plugin_generic{
 
 		// define installation
 		for ($i = 1; $i <= count($eqdkpSSOSQL['install']); $i++)
-			$this->add_sql(SQL_INSTALL, $eqdkpSSOSQL['install'][$i]);
+			$this->db->query($eqdkpSSOSQL['install'][$i]);
 		
 		
 		//Create uniqueID and masterKey
+		$masterKey = sha1(generateRandomBytes(48));
+		$uniqueID = sha1(generateRandomBytes(48));
 		$data = "<?php 
 if ( !defined('EQDKP_INC') ){
 	header('HTTP/1.0 404 Not Found');exit;
 }
 
-\$eqdkp_sso_uniqueID = '".sha1(generateRandomBytes(48))."';
-\$eqdkp_sso_masterKey = '".sha1(generateRandomBytes(48))."';
+\$eqdkp_sso_uniqueID = '".$uniqueID."';
+\$eqdkp_sso_masterKey = '".$masterKey."';
 
 ?>";
 		$this->pfh->secure_folder('config', 'eqdkp_sso');
 		$this->pfh->putContent($this->pfh->FolderPath('config', 'eqdkp_sso').'config.php', $data);
+		
+		//Insert this master as slave;
+		$crypt = register('encrypt', array($masterKey));
+		$arrQuery = array(
+				'name' 				=> ($this->config->get('main_title') != "") ? $this->config->get('main_title') : "This Master",
+				'domain' 			=> $this->env->server_name,
+				'uniqueid'			=> $uniqueID,
+				'db_type'		 	=> 0,
+				'db_host'			=> '',
+				'db_user' 			=> '',
+				'db_password'		=> '',
+				'db_database'		=> '',
+				'db_prefix'			=> $crypt->encrypt(registry::get_const("table_prefix")),
+				'cookie_name'		=> $this->config->get('cookie_name'),
+		);
+		$this->db->prepare("INSERT INTO __plugin_sso :p")->set($arrQuery)->execute();
 	}
 
 	/**
@@ -121,6 +141,8 @@ if ( !defined('EQDKP_INC') ){
 	* Define Post Uninstall
 	*/
 	public function post_uninstall(){
+		$arrConf = $this->config->get_config('eqdkp_sso');
+		$this->config->del(array_keys($arrConf), 'eqdkp_sso');
 	}
 
 	/**

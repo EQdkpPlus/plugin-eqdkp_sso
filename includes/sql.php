@@ -41,6 +41,7 @@ $eqdkpSSOSQL = array(
 			`db_password` varchar(255) COLLATE utf8_bin DEFAULT NULL,
 			`db_database` varchar(255) COLLATE utf8_bin DEFAULT NULL,
 			`db_prefix` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+			`cookie_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
 		PRIMARY KEY (`id`)
 	) DEFAULT CHARSET=utf8 COLLATE=utf8_bin;",
 	));
