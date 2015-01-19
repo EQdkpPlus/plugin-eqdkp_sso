@@ -56,11 +56,6 @@ $lang = array(
 	'es_add_slave' => 'Slave hinzufügen',
 	'es_edit_slave' => 'Slave bearbeiten',
 	'es_fs_db_infos' => 'Verbindungsinformationen',
-	'es_f_name'	=> 'Name des Slaves',
-	'es_f_uniqueid' => 'Eindeutige ID des Slaves',
-	'es_f_cookie_name' => 'Cookiename des Slaves',
-	'es_f_domain' => 'Domain des Slaves',
-	'es_f_help_domain' => 'Trage hier die Domain (inkl. Subdomain) ein, z.B. mydomain.com, oder eqdkp.yourdomain.eu',
 	'es_master_conn_true' => 'Die Verbindung mit dem Master war erfolgreich. Du kannst deinen Slave nun beim Master eintragen lassen, in dem du die Schaltfläche dafür verwendest.',
 	'es_sendto_master' => 'Diesen Slave an den Master senden',
 	'es_sendto_master_error' => 'Der Slave konnte nicht im Master eingetragen werden. Bitte überprüfe die Verbindung zum Master.',
@@ -68,6 +63,22 @@ $lang = array(
 	'es_domain' => 'Domain',
 	'es_uniqueid' => 'Eindeutige ID',
 	'es_cookie_name' => 'Cookie-Name',
+		
+	//Slaves
+	'es_sl_fs_general' => 'Allgemein',
+	'es_sl_fs_db_infos' => 'Slave-Verbindungsinformationen',
+	'es_sl_f_name' => 'Name des Slaves',
+	'es_sl_f_uniqueid' => 'Eindeutige ID des Slaves',
+	'es_sl_f_cookie_name' => 'Cookiename des Slaves',
+	'es_sl_f_domain' => 'Domain des Slaves',
+	'es_sl_f_help_domain' => 'Trage hier die Domain (inkl. Subdomain) ein, z.B. mydomain.com, oder eqdkp.yourdomain.eu',
+	'es_sl_f_help_db_type'		=> 'Wähle aus, wie der Slave zu erreichen ist.',
+	'es_sl_f_db_host'	=> 'Datenbank-Host',
+	'es_sl_f_db_user'	=> 'Datenbank-Benutzer',
+	'es_sl_f_db_password' => 'Datenbank-Passwort',
+	'es_sl_f_db_database' => 'Datenbank-Name',
+	'es_sl_f_db_prefix'	=> 'Installations-Prefix',
+	'es_sl_f_db_type'		=> 'Datenbankverbindung',
 );
 
 ?>

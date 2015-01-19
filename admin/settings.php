@@ -57,25 +57,27 @@ class EQdkpSSOAdminSettings extends page_generic {
 		$form->add_fieldsets($arrFields);
 		$arrValues = $form->return_values();
 		
-		//Check Connection to Master
-		$blnResult = $this->sso->check_connection($arrValues['db_type'], $arrValues['db_host'], $arrValues['db_user'], $arrValues['db_password'], $arrValues['db_database'], $arrValues['db_prefix']);
-		if ($blnResult === true){
-			$this->core->message($this->user->lang('es_master_conn_true'), $this->user->lang('success'), 'green');
-			$this->blnMasterTest = true;
-		} else {
-			$this->core->message($blnResult, $this->user->lang('error'), 'red');
+		if($arrValues['own_sso_type'] != "master"){
+			//Check Connection to Master
+			$blnResult = $this->sso->check_connection($arrValues['db_type'], $arrValues['db_host'], $arrValues['db_user'], $arrValues['db_password'], $arrValues['db_database'], $arrValues['db_prefix']);
+			if ($blnResult === true){
+				$this->core->message($this->user->lang('es_master_conn_true'), $this->user->lang('success'), 'green');
+				$this->blnMasterTest = true;
+			} else {
+				$this->core->message($blnResult, $this->user->lang('error'), 'red');
+			}
+			
+			//Encrypt some values
+			$arrValues['master_key']	= $this->encrypt->encrypt($arrValues['master_key']);
+			$arrValues['db_host']		= $this->encrypt->encrypt($arrValues['db_host']);
+			$arrValues['db_user']		= $this->encrypt->encrypt($arrValues['db_user']);
+			$arrValues['db_password']	= $this->encrypt->encrypt($arrValues['db_password']);
+			$arrValues['db_database']	= $this->encrypt->encrypt($arrValues['db_database']);
+			$arrValues['db_prefix']		= $this->encrypt->encrypt($arrValues['db_prefix']);
+			
+			unset($arrValues['own_uniqueid']);
+			unset($arrValues['own_master_key']);
 		}
-		
-		//Encrypt some values
-		$arrValues['master_key']	= $this->encrypt->encrypt($arrValues['master_key']);
-		$arrValues['db_host']		= $this->encrypt->encrypt($arrValues['db_host']);
-		$arrValues['db_user']		= $this->encrypt->encrypt($arrValues['db_user']);
-		$arrValues['db_password']	= $this->encrypt->encrypt($arrValues['db_password']);
-		$arrValues['db_database']	= $this->encrypt->encrypt($arrValues['db_database']);
-		$arrValues['db_prefix']		= $this->encrypt->encrypt($arrValues['db_prefix']);
-		
-		unset($arrValues['own_uniqueid']);
-		unset($arrValues['own_master_key']);
 		
 		$this->config->set($arrValues, '', 'eqdkp_sso');
 		$this->pdc->del('eqdkp_sso_masterdata');
@@ -99,7 +101,7 @@ class EQdkpSSOAdminSettings extends page_generic {
 		
 		$crypt = register('encrypt', array($arrValues['master_key']));
 		$arrQuery = array(
-				'name' 				=> $this->config->get('main_title'),
+				'name' 				=> ($this->config->get('main_title') != "") ? $this->config->get('main_title') : $this->env->server_name,
 				'domain' 			=> $this->env->server_name,
 				'uniqueid'			=> $this->sso->get_uniqueid(),
 				'db_type'		 	=> $dbtype,
@@ -198,6 +200,9 @@ class EQdkpSSOAdminSettings extends page_generic {
 
 	
 	public function display(){
+		$this->pdh->enqueue_hook('eqdkp_sso_update');
+		$this->pdh->process_hook_queue();
+		
 		registry::load("form");
 		
 		$arrFields = $this->fields();

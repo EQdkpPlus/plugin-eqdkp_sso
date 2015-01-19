@@ -52,7 +52,7 @@ class EQdkpSSOAdminSlaves extends page_generic {
 		$form = register('form', array('sso_settings'));
 		$form->use_fieldsets = true;
 		$form->use_dependency = true;
-		$form->lang_prefix = 'es_';
+		$form->lang_prefix = 'es_sl_';
 		$form->add_fieldsets($arrFields);
 		
 		$arrValues = $form->return_values();
@@ -138,7 +138,7 @@ class EQdkpSSOAdminSlaves extends page_generic {
 		$form = register('form', array('sso_settings'));
 		$form->use_fieldsets = true;
 		$form->use_dependency = true;
-		$form->lang_prefix = 'es_';
+		$form->lang_prefix = 'es_sl_';
 		$form->add_fieldsets($arrFields);
 		
 		if(!$arrValues && $this->in->get('slaveid', 0)){
