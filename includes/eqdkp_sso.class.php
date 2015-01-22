@@ -58,7 +58,7 @@ class eqdkp_sso_class extends gen_class {
 			}
 		} elseif((int)$db_type == 2){
 			//Bridge
-			$mydb = $this->bridge->db;
+			$mydb = $this->bridge->bridgedb;
 		}
 		
 		if ($mydb){
@@ -88,7 +88,7 @@ class eqdkp_sso_class extends gen_class {
 			}
 		} elseif((int)$db_type == 2){
 			//Bridge
-			$mydb = $this->bridge->db;
+			$mydb = $this->bridge->bridgedb;
 		}
 		
 		return $mydb;
