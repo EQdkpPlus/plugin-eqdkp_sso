@@ -43,9 +43,7 @@ if (!class_exists('sso_user_login_successful_hook')){
 			$arrMasterData	= $this->pdc->get('eqdkp_sso_masterdata');
 				
 			if($arrMasterData === NULL){
-				//Hole Daten aus Master
-				$arrValues = $this->config->get_config('eqdkp_sso');
-				
+				//Hole Daten aus Master			
 				$objMasterDB = $this->sso->getMasterConnection();
 				if ($objMasterDB){
 					$objQuery = $objMasterDB->query('SELECT * FROM __plugin_sso');

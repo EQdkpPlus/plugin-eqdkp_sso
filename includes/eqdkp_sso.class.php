@@ -97,6 +97,9 @@ class eqdkp_sso_class extends gen_class {
 	public function getMasterConnection(){
 		$arrValues = $this->config->get_config('eqdkp_sso');
 		
+		//This is the Master
+		if($arrValues['own_sso_type'] == "master") return $this->db;
+		
 		if(isset($arrValues['master_key']))  $arrValues['master_key']	= $this->encrypt->decrypt($arrValues['master_key']);
 		if(isset($arrValues['db_host'])) 	 $arrValues['db_host']		= $this->encrypt->decrypt($arrValues['db_host']);
 		if(isset($arrValues['db_user']))	 $arrValues['db_user']		= $this->encrypt->decrypt($arrValues['db_user']);
