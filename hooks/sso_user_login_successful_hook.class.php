@@ -66,7 +66,7 @@ if (!class_exists('sso_user_login_successful_hook')){
 						}
 					}
 					//Und Cache sie
-					$this->pdc->put('eqdkp_sso_masterdata', $this->eqdkp_sso, 60*10);
+					$this->pdc->put('eqdkp_sso_masterdata', $arrMasterData, 60*10);
 				} else {
 					//No connection to Master
 					return;

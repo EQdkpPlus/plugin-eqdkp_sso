@@ -33,6 +33,9 @@ class eqdkp_sso_class extends gen_class {
 	
 	public function get_master_key(){
 		$arrValues = $this->config->get_config('eqdkp_sso');
+		if($arrValues['own_sso_type'] == "master"){
+			return $this->get_own_master_key();
+		}
 		if(isset($arrValues['master_key']))  $masterKey	= $this->encrypt->decrypt($arrValues['master_key']);
 
 		return $masterKey;
