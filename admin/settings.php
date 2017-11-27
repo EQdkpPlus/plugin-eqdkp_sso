@@ -249,6 +249,10 @@ class EQdkpSSOAdminSettings extends page_generic {
 				'page_title'		=> $this->user->lang('settings'),
 				'template_path'		=> $this->pm->get_data('eqdkp_sso', 'template_path'),
 				'template_file'		=> 'admin/settings.html',
+				'page_path'			=> [
+						['title'=>$this->user->lang('menu_admin_panel'), 'url'=>$this->root_path.'admin/'.$this->SID],
+						['title'=>$this->user->lang('eqdkp_sso').': '.$this->user->lang('settings'), 'url'=>' '],
+				],
 				'display'			=> true)
 		);
 	}

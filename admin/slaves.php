@@ -162,6 +162,10 @@ class EQdkpSSOAdminSlaves extends page_generic {
 				'template_path'		=> $this->pm->get_data('eqdkp_sso', 'template_path'),
 				'template_file'		=> 'admin/slaves.html',
 				'header_format'		=> 'simple',
+				'page_path'			=> [
+						['title'=>$this->user->lang('menu_admin_panel'), 'url'=>$this->root_path.'admin/'.$this->SID],
+						['title'=>$this->user->lang('eqdkp_sso').': '.$this->user->lang('settings'), 'url'=>' '],
+				],
 				'display'			=> true)
 		);
 	}
